@@ -1,0 +1,54 @@
+.fade-out {
+    transition: opacity 0.5s ease;
+    opacity: 1;
+  }
+  
+  .fade-out.hide {
+    opacity: 0;
+  }
+
+  #my-form {
+      transition: transform 0.3s ease-out;
+  }
+  
+
+  .star-rating {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .star-icon-wrapper {
+    font-size: 24px;
+    color: #f5ee8e;
+    cursor: pointer;
+  }
+  
+  .star-icon-wrapper:hover .star-icon {
+    color: #f07715;
+  }
+  
+  .star-icon-wrapper.active .star-icon {
+    color: #f07715;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  
+  .grid-item {
+    scroll-snap-align: start;
+  }
+
+  .recommendations-container {
+    display: flex;
+    overflow-x: auto;
+  }
+  
+  .recommendation {
+    flex: 0 0 auto;
+    margin-right: 10px;
+  }

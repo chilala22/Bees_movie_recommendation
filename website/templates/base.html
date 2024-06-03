@@ -1,0 +1,92 @@
+<!--this is the theme of the website
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- tailwind cdn -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- font awesome cdn -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+    /* Add your custom styles here */
+    </style>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
+    <title>{% block title%}Home{% endblock %}</title>
+</head>
+<body class="bg-slate-400">
+
+  <nav class="bg-gray-800">
+    <div class="mx-auto">
+      <div class="relative flex h-16 items-center justify-between">
+        <div class="flex">
+          <!-- <div class="items-center">
+            <img class="h-8 w-auto mx-5 " src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company">
+          </div> -->
+          <div class="navbar-nav">
+            {% if users.is_authenticated %}
+            <a class="nav-item nav-link  text-white rounded-md px-3 py-2 text-sm font-medium" id="home" href="/">Home</a>
+            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/movie-search-image">Movie search</a>
+            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/wishlist">Your Wishlist</a>
+            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/rated-movie-recommendations">Your Rated Movies</a>
+            <a class="nav-item nav-link text-red-600 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="logout" href="/logout">Logout</a>
+
+            {% else %}
+            <a class="nav-item nav-link  text-white rounded-md px-3 py-2 text-sm font-medium" id="home" href="/">Home</a>
+            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" id="login" href="/login">Login</a>
+            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" id="signUp" href="/sign-up">Sign Up</a>
+            {% endif %}
+        </div>
+        </div>
+     
+      </div>
+    </div>
+  
+</nav>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+  {% for category, message in messages %}
+    {% if category == 'error' %}
+
+      <div id="error-messages" class="bg-red-500 text-white p-2 rounded fade-out" role="alert">
+        {{ message }}
+      </div>
+    {% elif category == 'success' %}
+      <div id="error-messages" class="bg-green-400 text-white rounded p-2 fade-out" role="alert">
+        {{ message }}
+      </div>
+      
+    {% endif %}
+  {% endfor %}
+{% endif %}
+{% endwith %}
+
+      <div class="container">
+        {% block content%}
+        {% endblock%}
+      </div>
+
+    <script
+        type="text/javascript"
+        src="{{ url_for('static', filename='index.js') }}">
+    </script>
+
+</body>
+</html>

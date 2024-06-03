@@ -1,0 +1,80 @@
+<!-- using base template -->
+{% extends "base.html" %}{% block title%}Movie Search Image{% endblock %}
+{% block content%}
+
+<section class="h-5/6 justify-center items-center overflow-y-hidden mt-5 ml-10 bg-slate-300">
+ <h6 class="mt-2 ml-4 font-bold text-3xl text-slate-800">
+    {{ movie_name_req }} ({{ movie_details.release_date.year}})
+</h6>
+<div class="flex ">
+    <div class="grid grid-cols-6 gap-2 ">
+        <div class="col-span-2 pt-4">
+            <!-- <h4>{{movie_id}}</h4> -->
+            <div class="rounded-md ">
+                <img src="{{ movie_poster }}"  alt="Recommendation Image" class=" object-cover m-2 ml-10 rounded-md " width="250" height="350" >
+            </div>            
+        </div>
+        <div class=" col-span-4">
+        <p class="my-4">
+            {{ movie_details.overview}}
+        </p>
+        <div class=" bg-slate-700 my-4 rounded-xl text-slate-200 ml-6 h-8 w-5/6 justify-center items-center text-center">
+        <div class="flex flex-row  " id="oneCol">
+            <div class="flex-none mt-1 w-8 mx-4 bg-slate-300 text-slate-800 rounded-xl" >{{movie_details.original_language}}</div>
+
+            <div class="flex-auto  mx-4 border-slate-500 text-sm py-1" ><i class="fa-regular fa-clock"></i> &nbsp{{ movie_details.runtime if movie_details.runtime!= '00:00:00' else 'Unknown' }}</div>
+            
+            <div class="flex-auto mx-4 border-slate-500 text-sm py-1"> 
+                &nbsp{{movie_details.vote_average}} / 10 ({{movie_details.vote_count}} reviews)
+            </div>     
+        </div>
+     
+    </div>
+    <div class="">
+        <p class="capitalize font-bold text-3xl">want to rate this movie? </p>
+        <form action="{{ url_for('views.rate_movie', movie_id=movie_id) }}" method="post" class="flex items-center mx-16">
+       
+          <div class="star-rating mr-9 m">
+            <input type="hidden" name="ratings" id="ratings" value="1" />
+            {% if existing_rating %}
+              {% for i in range(1, 6) %}
+                <span class="star-icon-wrapper" data-rating="{{ i }}">
+                  <label for="ratings" class="star-icon">
+                    <i class="fas fa-star {{ 'checked' if i <= existing_rating.rating else '' }}"></i>
+                  </label>
+                </span>
+              {% endfor %}
+            {% else %}
+              {% for i in range(1, 6) %}
+                <span class="star-icon-wrapper" data-rating="{{ i }}">
+                  <label for="ratings" class="star-icon">
+                    <i class="fas fa-star"></i>
+                  </label>
+                </span>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <button type="submit" id="rate_add" name="rate_add" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-1 rounded my-1 w-1/2">Rate a movie</button>
+        
+
+        </form>
+    </div>
+    <div>
+        <p class="mb-1">Genres: &nbsp {{ movie_details.genres }}</p>
+        <p class="mb-1">Realeased on: &nbsp {{movie_details.release_date}}</p>
+        <p class="mb-1">Production companies: {{movie_details.production_companies}}</p>
+        <p class="mb-1">Directors:&nbsp {{ movie_details.director}}</p>
+        <p class="mb-1">Cast:&nbsp {{movie_details.cast_movie}}</p>
+        <p class="mb-1">You rated before {{rating_value}} / 5.0</p>
+        <p class="mb-1">Homepage: &nbsp{{movie_details.homepage if movie_details.homepage!= '' else 'N/A' }}</p>        
+        <p class="mb-1 mt-5 font-semibold">{{movie_details.tagline}}</p>
+        
+    </div>
+        
+    </div>
+         </div>
+    </div>
+</section>
+<script src='https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js'></script>
+<script src='https://cdn.jsdelivr.net/npm/animejs@3.1.0/lib/anime.min.js'></script>
+{% endblock%}

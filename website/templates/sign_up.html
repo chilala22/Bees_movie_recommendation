@@ -1,0 +1,104 @@
+<!-- using base template -->
+{% extends "base.html" %}{% block title%}Sign Up{% endblock %}
+{% block content%}
+<section id="my-form">
+  <div class="h-5/6 my-2 ">
+    <!-- Left column container with background-->
+    <div
+      class="flex h-full flex-wrap items-center justify-center lg:justify-between">
+      <div
+        class="shrink-1 mb-12 grow-0 basis-auto md:mb-0 md:w-9/12 md:shrink-0 lg:w-6/12 xl:w-6/12 ">
+        <img
+          src="https://tecdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
+          class="w-full"
+          alt="Sample image" />
+      </div>
+
+      <!-- Right column container -->
+      <div class="mb-12 md:mb-0 md:w-8/12 lg:w-5/12 xl:w-5/12">
+        <h1 class="text-slate-200 text-center justify-center text-2xl">Sign Page</h1>
+<form class="" method="POST" >
+    <div class="relative mb-2">
+      <label for="email" class=" text-neutral-500 ">Email Address</label>
+      <input
+        type="email"
+        class="min-h-[auto] bg-slate-100 w-full h-10 rounded border-0 px-3"
+        id="email"
+        name="email"
+        placeholder="Enter email"
+      />
+    </div>
+    <div class="relative mb-2">
+      <label for="firstName" class=" text-neutral-500 ">First Name</label>
+      <input
+        type="text"
+        class="min-h-[auto] w-full h-10 rounded border-0  px-3 "
+        id="firstName"
+        name="firstName"
+        placeholder="Enter first name"
+      />
+    </div>
+    <div class="relative mb-2">
+        <label for="firstName" class=" text-neutral-500 ">Last Name</label>
+        <input
+          type="text"
+          class="min-h-[auto] w-full h-10 rounded border-0  px-3 "
+          id="lastName"
+          name="lastName"
+          placeholder="Enter last name"
+        />
+      </div>
+      <div class="relative mb-2">
+        <label for="firstName" class=" text-neutral-500 ">UserName</label>
+        <input
+          type="text"
+          class="min-h-[auto] w-full h-10 rounded border-0  px-3 "
+          id="userName"
+          name="userName"
+          placeholder="Enter user name"
+        />
+      </div>
+      <div class="flex justify-between mb-2">
+        <div class="relative w-1/2 pr-2">
+          <label for="password1" class="text-neutral-500">Password</label>
+          <input
+            type="password"
+            class="min-h-[auto] w-full h-10 rounded border-0  px-3 py-[0.32rem]"
+            id="password1"
+            name="password1"
+            placeholder="Enter password"
+          />
+        </div>
+        <div class="relative w-1/2 pl-2">
+          <label for="password2" class="text-neutral-500">Password (Confirm)</label>
+          <input
+            type="password"
+            class="min-h-[auto] w-full h-10 rounded border-0  px-3 py-[0.32rem]"
+            id="password2"
+            name="password2"
+            placeholder="Confirm password"
+          />
+        </div>
+      </div>
+    <div class="text-center lg:text-left my-4"></div>
+    <button 
+    type="submit" 
+    class="w-full h-10 rounded bg-slate-600 px-7 pb-2 pt-2 text-lg font-medium uppercase  text-slate-800 ">
+    Register
+  </button>
+  <!-- Login link -->
+  <p class="mb-0 pt-1 text-sm font-semibold">
+   Already have an account?
+    <a
+      href="login"
+      class="text-slate-300"
+      >Login</a
+    >
+  </p>
+</div>
+  </form>
+</div>
+</div>
+</div>
+</section>
+{% endblock%}
