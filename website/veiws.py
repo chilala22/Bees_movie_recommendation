@@ -9,8 +9,8 @@ import json
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-from wtforms import StringField, Form
-from wtforms.validators import DataRequired, Length
+# from wtforms import StringField, Form
+# from wtforms.validators import DataRequired, Length
 from flask_sqlalchemy import SQLAlchemy  
 import random
 
@@ -34,14 +34,14 @@ def fetch_poster(movie_id):
      return full_path,release_date_path,runtime_path
  
  
-movies=pickle.load(open("./backend/movies_list_part1.pkl", "rb"))
+movies=pickle.load(open("./movies_list_part1.pkl", "rb"))
 # similarities will be gotten from the similarity.pkl
-similarity=pickle.load(open("./backend/similarity_part1.pkl", "rb"))
+similarity=pickle.load(open("./similarity_part1.pkl", "rb"))
 # helps get the names of the movies from the id in title
 movies_list = movies['title'].values
 # best_rated_movies=pickle.load(open("./backend/best_rated_movies.pkl", "rb"))
-best_rated_movies = pd.read_pickle("./backend/best_rated_movies.pkl")
-popular_movies = pd.read_pickle("./backend/most_popular_movies.pkl")
+best_rated_movies = pd.read_pickle("./best_rated_movies.pkl")
+popular_movies = pd.read_pickle("./most_popular_movies.pkl")
 
 def recommend(movie):
     index=movies[movies['title']==movie].index[0]
