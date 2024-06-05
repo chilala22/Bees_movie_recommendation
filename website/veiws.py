@@ -137,32 +137,6 @@ def delete_note():
         flash('Error, unable to delete this note.', category='error')
     return jsonify({})
 
-# @views.route('/movie-search-image', methods=['GET', 'POST'])
-# def movie_search_image():
-#     name = ''
-#     movie_name_req = []
-#     recommendations_poster = []
-#     recommended_movie_ids = []
-#     movie_release_dates = []
-#     movie_runtimes = []
-#     if request.method == 'POST':
-#         name = request.form.get('name')
-#         movie_name_req,recommendations_poster,recommended_movie_ids, movie_release_dates, movie_runtimes = recommend(name)   
-    
-#     # Create an array of movie page URLs
-#     movie_page_urls = [f'/movie-page/{movie_name_req[i]}/{movie_id}' for i, movie_id in enumerate(recommended_movie_ids)]
-
-
-#     return flask.render_template('search_movie.html',
-#                                  name=name,
-#                                  users=current_user,
-#                                  movies=movies_list,
-#                                  movie_name_req=movie_name_req,
-#                                  recommendations_poster=recommendations_poster,
-#                                  recommended_movie_ids=recommended_movie_ids,
-#                                  movie_page_urls=movie_page_urls,
-#                                  movie_release_dates=movie_release_dates,
-#                                  movie_runtimes=movie_runtimes)
 @views.route('/movie-search-image', methods=['GET', 'POST'])
 def movie_search_image():
     name = ''
@@ -258,27 +232,6 @@ def delete_movie(movie_id):
         db.session.commit()
     return redirect(url_for('views.movies_wishlist'))
 
-# @views.route('/wishlist')
-# @login_required
-# def movies_wishlist():
-#     wishlist_movies = Wishlist.query.filter_by(users_id=current_user.id).all()
-#     movies = []
-#     movie_poster_wish = []
-#     release_date =[]
-#     runtime = []
-#     for wishlist in wishlist_movies:
-#         movie = tmdb_movies.query.get(wishlist.tmdb_movies_id)
-#         if movie:
-#             movie_poster_wish, release_date, runtime = fetch_poster(movie.id)
-#             movies.append({
-#                 'movie': movie,
-#                 'movie_poster_wish': movie_poster_wish,
-#                 'release_date': release_date,
-#                 'runtime': runtime
-#             })
-    
-#     return render_template('movies_wishlist.html', users=current_user, movies=movies)
-
 @views.route('/wishlist')
 @login_required
 def movies_wishlist():
@@ -303,64 +256,8 @@ def movies_wishlist():
             })
     
     return render_template('movies_wishlist.html', users=current_user, movies=movies)
-# @views.route('/rate-movie')
-# @login_required
-# def rate_movie():
-#     movie_id = request.form["movie_id"]
-#     rating_count = request.form["ratings"]
-#     # movie = rating.query.get(movie_id)
-#     # movie.rating = rating
-#     # db.session.commit()
-#     movie_rating = Rating(users_id=current_user.id, tmdb_movies_id=movie_id, rating=rating_count)
-#     db.session.add(movie_rating)
-#     db.session.commit()
-#     # return "Rating submitted successfully!"
-#     flash('Rating submitted successfully!', category='success')
-#     return render_template('movie_rating_page.html', users=current_user)
 
-# @views.route('/rate-movie', methods=['GET', 'POST'])
-# @login_required
-# def rate_movie():
-#     if request.method == 'POST':
-#         movie_id = request.form["movie_id"]
-#         rating_count = request.form["ratings"]
-#         movie_rating = Ratings(users_id=current_user.id, tmdb_movies_id=movie_id, rating=rating_count)
-#         db.session.add(movie_rating)
-#         db.session.commit()
-#         flash('Rating submitted successfully!', category='success')
-#         return redirect(url_for('views.rate_movie', users=current_user))
-#     return render_template('movie_rating_page.html', users=current_user)
 
-# @views.route('/rate-movie/<int:movie_id>', methods=['GET', 'POST'])
-# @login_required
-# def rate_movie(movie_id):
-#     if request.method == 'POST':
-#         rating_count = request.form["ratings"]
-#         movie_rating = Ratings(users_id=current_user.id, tmdb_movies_id=movie_id, rating=rating_count)
-#         db.session.add(movie_rating)
-#         db.session.commit()
-#         flash('Rating submitted successfully!', category='success')
-#         return redirect(url_for('views.home'))  # Redirect back to home page
-#     return render_template('movie_page.html', users=current_user)
-
-# @views.route('/rate-movie/<int:movie_id>', methods=['GET', 'POST'])
-# @login_required
-# def rate_movie(movie_id):
-#     if request.method == 'POST':
-#         rating_count = request.form["ratings"]
-#         # Check if the user has already rated this movie
-#         existing_rating = Ratings.query.filter_by(users_id=current_user.id, tmdb_movies_id=movie_id).first()
-#         if existing_rating:
-#             # Update the existing rating
-#             existing_rating.rating = rating_count
-#         else:
-#             # Create a new rating
-#             movie_rating = Ratings(users_id=current_user.id, tmdb_movies_id=movie_id, rating=rating_count)
-#             db.session.add(movie_rating)
-#         db.session.commit()
-#         flash('Rating submitted successfully!', category='success')
-#         return redirect(url_for('views.home'))  # Redirect back to home page
-#     return render_template('movie_page.html', users=current_user, movie_id=movie_id)
 
 @views.route('/rate-movie/<int:movie_id>', methods=['GET', 'POST'])
 @login_required
@@ -386,105 +283,6 @@ def rate_movie(movie_id):
         # Redirect back to the movie page
         return redirect(url_for('views.movie_page', movie_name_req=movie_name_req, movie_id=movie_id))
     return render_template('movie_page.html', users=current_user)
-
-
-
-# @views.route('/rated-movie-recommendations', methods=['GET', 'POST'])
-# @login_required
-# def rate_movie_recommendations():
-
-#         # Redirect back to the movie page
-#     return render_template('movie_rating_page.html', users=current_user)
-
-# @views.route('/rated-movie-recommendations', methods=['GET', 'POST'])
-# @login_required
-# def rate_movie_recommendations():
-#     # Fetch high rated movies from the database
-#     high_rated_movies = db.session.query(Ratings, tmdb_movies).filter(Ratings.rating >= 3, Ratings.tmdb_movies_id == tmdb_movies.id).all()
-
-#     # Randomly select 4 movies
-#     selected_movies = random.sample([movie.tmdb_movies_id for movie in high_rated_movies], 4)
-
-#     # Generate recommendations for each selected movie
-#     recommended_movies = []
-#     for movie in selected_movies:
-#         movie_obj = [m for m in high_rated_movies if m[0].tmdb_movies_id == movie][0]
-#         recommended_movies.append(recommend(movie_obj[1].title, movie_obj[0].rating))
-
-#     # Prepare data for the template
-#     data = {
-#         'current_user': current_user,
-#         'high_rated_movies': high_rated_movies,
-#         'selected_movies': selected_movies,
-#         'recommended_movies': recommended_movies,
-#     }
-
-#     return render_template('movie_rating_page.html', **data)
-
-# @views.route('/rated-movie-recommendations', methods=['POST'])
-# @login_required
-# def rate_movie_recommendations():
-
-
-#     return render_template('movie_rating_page.html', users=current_user)
-# @views.route('/rated-movie-recommendations', methods=['GET'])
-# @login_required
-# def rated_movie_recommendations():
-#     movies = db.session.query(tmdb_movies.id,tmdb_movies.title,tmdb_movies.genres,tmdb_movies.budget,tmdb_movies.homepage).join( Ratings, tmdb_movies.id == Ratings.tmdb_movies_id).filter(Ratings.rating >= 3).order_by(desc(Ratings.rating)).all()
-#     # Randomly select 4 movies from the list
-#     random_movies = random.sample(movies, 4)
-#      # Get the recommended movies for each of the random movies
-#     recommended_movies = []
-#     for movie in random_movies:
-#         title = movie[1]  # Get the title of the movie
-#         _id = movie[0]  # Get the title of the movie
-#         rec_movies, rec_posters, rec_ids, rec_release_dates, rec_runtimes = recommend(title)
-#         recommended_movies.append({
-#             'id': _id,
-#             'title': title,
-#             'recommended_movies': rec_movies,
-#             'recommended_posters': rec_posters,
-#             'recommended_ids': rec_ids,
-#             'recommended_release_dates': rec_release_dates,
-#             'recommended_runtimes': rec_runtimes
-#         })
-#     return render_template('movie_rating_page.html', movies=random_movies,recommended_movies=recommended_movies, users=current_user)
-
-# @views.route('/rated-movie-recommendations', methods=['GET'])
-# @login_required
-# def rated_movie_recommendations():
-#     movies = db.session.query(tmdb_movies.id, tmdb_movies.title, tmdb_movies.genres, tmdb_movies.budget, tmdb_movies.homepage).join(Ratings, tmdb_movies.id == Ratings.tmdb_movies_id).filter(Ratings.rating >= 3).order_by(desc(Ratings.rating)).all()
-#     # Randomly select 4 movies from the list
-#     random_movies = random.sample(movies, 4)
-#     # Get the recommended movies for each of the random movies
-#     recommended_movies = []
-#     for movie in random_movies:
-#         title = movie[1]  # Get the title of the movie
-#         _id = movie[0]  # Get the id of the movie
-#         rec_movies, rec_posters, rec_ids, rec_release_dates, rec_runtimes = recommend(title)
-#         # Get the user's rating for the movie
-#         user_rating = db.session.query(Ratings.rating).filter(Ratings.tmdb_movies_id == rec_ids, Ratings.users_id == current_user.id).first()
-#         # user_rating = Ratings.query.filter_by(tmdb_movies_id=rec_ids, users_id=current_user.id).first()
-#         rating_value =  user_rating[0] if user_rating else 0 #rating.rating if rating else None
-#         recommended_movies.append({
-#             'id': _id,
-#             'title': title,
-#             'recommended_movies': rec_movies,
-#             'recommended_posters': rec_posters,
-#             'recommended_ids': rec_ids,
-#             'recommended_release_dates': rec_release_dates,
-#             'recommended_runtimes': rec_runtimes,
-#             'rating_value': rating_value,
-#         })
-        
-#     # for rec_movie in recommended_movies:
-#     #     for i in range(len(rec_movie['recommended_movies'])):
-#     #         movie_id = int(rec_movie['recommended_ids'][i])
-#     #         ratings = db.session.query(Ratings.rating).filter(Ratings.tmdb_movies_id == movie_id).all()
-#     #         avg_rating = sum([rating[0] for rating in ratings]) / len(ratings) if ratings else 0
-#     #         rec_movie[f'recommended_ratings_{i}'] = avg_rating
-
-#     return render_template('movie_rating_page.html', movies=random_movies, recommended_movies=recommended_movies, users=current_user)
 
 @views.route('/rated-movie-recommendations', methods=['GET'])
 @login_required
