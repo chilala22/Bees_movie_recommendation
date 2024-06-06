@@ -23,8 +23,12 @@
                       <div class="flex-auto  mx-4 border-slate-500">{{ movie_posters_popular[idx][2]}} min</div>
                   </div>
                   <div>
+                    {% if current_user.is_authenticated %}
+                <div>
                     <p class="font-medium">Your rating: {{ movie_popular['rating'] | default('no rating', 0) }} / 5.0</p>    
                 </div>
+                {% endif %}
+                  </div>
                   </div>
                   <form action="{{ url_for('views.movie_wishlist', movie_id=movie_popular['id']) }}" method="post" class="mt-auto text-center text-sm ">
                     <button type="submit" id="wishlist_add" name="wishlist_add" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-1 rounded my-1">Add to wishlist</button>
@@ -54,8 +58,10 @@
                   </div>
                   
                   <div>
+                    {% if current_user.is_authenticated %}
                     <p class="font-medium">Your rating: {{ best_movie['rating'] | default('no rating', 0) }} / 5.0</p>    
-                </div>
+                    {% endif %}
+                  </div>
 
                   </div>
                   <form action="{{ url_for('views.movie_wishlist', movie_id=best_movie['id']) }}" method="post" class="mt-auto text-center text-sm ">

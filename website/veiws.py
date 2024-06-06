@@ -89,8 +89,10 @@ def home():
     movie_page_urls_pop = [url_for('views.movie_page', movie_name_req=movie_pop['original_title'], movie_id=movie_pop['id']) for movie_pop in top_10_popular_movies.to_dict('records')]
 
     # Query the Ratings table to get the rating for each movie
-    popular_ratings = db.session.query(Ratings).filter(Ratings.tmdb_movies_id.in_(top_10_popular_movies['id'])).all()
-
+    if current_user.is_authenticated:
+        popular_ratings = db.session.query(Ratings).filter(Ratings.tmdb_movies_id.in_(top_10_popular_movies['id'])).all()
+    else:
+        popular_ratings = []
     # Create a dictionary to store the popular_ratings
     popular_ratings_dict = {rating.tmdb_movies_id: rating.rating for rating in popular_ratings}
     # Enumerate the movies list and add the rating to each movie
