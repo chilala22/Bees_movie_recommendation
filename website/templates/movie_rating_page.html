@@ -9,6 +9,7 @@
       <div>
       
       <h1 class="text-4xl font-bold m-2 text-center text-slate-900 uppercase">Your Rated Movies</h1>
+      {% if user_ratings_count >= 4 %}
       {% for movie in movies %}
           <h2 class="text-2xl font-bold mb-2">Because you watched {{ movie[1] }}</h2>
           <div class="my-3 overflow-x-auto">
@@ -43,6 +44,15 @@
           </div>
       {% endfor %}
     </div>
+    {% else %}
+    <p class="text-center text-red-500 font-bold">
+        You have rated {{ user_ratings_count }} movies. 
+        {% if high_rated_count < 4 %}
+            You need to rate at least 4 movies with a rating of 3 or higher to get recommendations.
+        {% endif %}
+    </p>
+
+    {% endif %}
   </section>
 </main>
 {% endblock %}

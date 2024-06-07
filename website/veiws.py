@@ -304,12 +304,21 @@ def rate_movie(movie_id):
 @views.route('/rated-movie-recommendations', methods=['GET'])
 @login_required
 def rated_movie_recommendations():
-    movies = db.session.query(
+    # Get the number of movies the current user has rated
+    user_ratings_count = db.session.query(Ratings).filter(Ratings.users_id == current_user.id).count()
+
+    # Get movies rated by the current user with a rating of 3 or higher
+    rated_movies = db.session.query(
         tmdb_movies.id, tmdb_movies.title, tmdb_movies.genres, tmdb_movies.budget, tmdb_movies.homepage
-    ).join(Ratings, tmdb_movies.id == Ratings.tmdb_movies_id).filter(Ratings.rating >= 3).order_by(desc(Ratings.rating)).all()
+    ).join(Ratings, tmdb_movies.id == Ratings.tmdb_movies_id).filter(Ratings.rating >= 1, Ratings.users_id == current_user.id).order_by(desc(Ratings.rating)).all()
+
+    # Check if the user has rated at least 4 movies with a rating of 3 or higher
+    if len(rated_movies) < 4:
+        flash('You need to rate at least 4 movies with a rating of 3 or higher to get recommendations.', 'warning')
+        return render_template('movie_rating_page.html', user_ratings_count=user_ratings_count, movies=[], recommended_movies=[], users=current_user)
 
     # Randomly select 4 movies from the list
-    random_movies = random.sample(movies, 4)
+    random_movies = random.sample(rated_movies, 4)
 
     # Get the recommended movies for each of the random movies
     recommended_movies = []
@@ -338,4 +347,4 @@ def rated_movie_recommendations():
             'recommended_movies': rec_movies_with_ratings
         })
 
-    return render_template('movie_rating_page.html', movies=random_movies, recommended_movies=recommended_movies, users=current_user)
+    return render_template('movie_rating_page.html', user_ratings_count=user_ratings_count, movies=random_movies, recommended_movies=recommended_movies, users=current_user)
