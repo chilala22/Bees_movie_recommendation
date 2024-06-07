@@ -65,7 +65,7 @@ def recommend(movie):
     return recommended_movies,recommend_poster,recommended_movie_ids, movie_release_dates, movie_runtimes
 
 @views.route('/')
-# @login_required  #cannot get user from route if not logged in
+@login_required  #cannot get user from route if not logged in
 def home():
     """
     Display the top 10 recommended movies on the home page.
@@ -77,7 +77,10 @@ def home():
     # Enumerate the movies list
     # enumerate_best_movies = list(enumerate(top_10_best_movies.to_dict('records')))
     # Query the Ratings table to get the rating for each movie
-    best_ratings = db.session.query(Ratings).filter(Ratings.tmdb_movies_id.in_(top_10_best_movies['id'])).all()
+    best_ratings = db.session.query(Ratings).filter(
+        Ratings.tmdb_movies_id.in_(top_10_best_movies['id']),
+        Ratings.users_id == current_user.id  # Filter by the current user's ID
+        ).all()
 
     # Create a dictionary to store the popular_ratings
     best_ratings_dict = {rating.tmdb_movies_id: rating.rating for rating in best_ratings}
@@ -89,10 +92,19 @@ def home():
     movie_page_urls_pop = [url_for('views.movie_page', movie_name_req=movie_pop['original_title'], movie_id=movie_pop['id']) for movie_pop in top_10_popular_movies.to_dict('records')]
 
     # Query the Ratings table to get the rating for each movie
-    if current_user.is_authenticated:
-        popular_ratings = db.session.query(Ratings).filter(Ratings.tmdb_movies_id.in_(top_10_popular_movies['id'])).all()
-    else:
-        popular_ratings = []
+    # popular_ratings = db.session.query(Ratings).filter(
+    #     Ratings.tmdb_movies_id.in_(top_10_popular_movies['id'])).all()
+    # Query the Ratings table to get the rating for each movie for the current user
+    popular_ratings = db.session.query(Ratings).filter(
+        Ratings.tmdb_movies_id.in_(top_10_popular_movies['id']),
+        Ratings.users_id == current_user.id  # Filter by the current user's ID
+    ).all()
+
+  
+    # # Create a dictionary to store the popular_ratings
+    # popular_ratings_dict = {rating.tmdb_movies_id: rating.rating for rating in popular_ratings}
+    # # Enumerate the movies list and add the rating to each movie
+    # enumerate_popular_movies = [(i, {**movie, 'rating': popular_ratings_dict.get(movie['id'])}) for i, movie in enumerate(top_10_popular_movies.to_dict('records'))]
     # Create a dictionary to store the popular_ratings
     popular_ratings_dict = {rating.tmdb_movies_id: rating.rating for rating in popular_ratings}
     # Enumerate the movies list and add the rating to each movie
@@ -166,7 +178,10 @@ def movie_search_image():
                     # Calculate average ratings for recommended movies
                     for rec_id in recommended_movie_ids:
                         rec_id = int(rec_id)
-                        ratings = db.session.query(Ratings.rating).filter(Ratings.tmdb_movies_id == rec_id).all()
+                        ratings = db.session.query(Ratings.rating).filter(
+                            Ratings.tmdb_movies_id == rec_id,
+                            Ratings.users_id == current_user.id # Filter by the current user's ID
+                            ).all()
                         avg_rating = sum([rating[0] for rating in ratings]) / len(ratings) if ratings else None
                         rating_value.append(avg_rating)
                         
