@@ -1,5 +1,4 @@
 # creating db models
-# from sqlalchemy import Identity
 from . import db
 # custom class that gives user specifics about the user
 from flask_login import UserMixin
@@ -100,6 +99,3 @@ class tmdb_movies(db.Model):
     crew = db.Column(db.Text)
     director = db.Column(db.String(50))
     soup = db.Column(db.Text)
-    
-      # Define the relationship between tmdb_movies and Ratings
-    # ratings = db.relationship('Ratings', back_populates='tmdb_movie')

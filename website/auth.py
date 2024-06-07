@@ -11,8 +11,6 @@ auth=Blueprint('auth',__name__)
 @auth.route('/login', methods=['GET','POST'])
 def login():
     #getting info from form
-    # data=request.form
-    # print(data)
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
@@ -66,7 +64,6 @@ def sign_up():
             flash('Password is too short, must be more than 3 characters',category='error')
         else:
             # add user to db
-            # savedPassword=generate_password_hash(password1,method='Sha256')
             new_user = Users(first_name=firstName, last_name=lastName, username=userName, email=email,password=generate_password_hash(
                 password1, method='pbkdf2:sha256'))
             db.session.add(new_user) #adds new user to the db
@@ -78,11 +75,3 @@ def sign_up():
         
         
     return render_template("sign_up.html",users=current_user)
-
-
-@auth.route('/checking',methods=['GET'])
-def return_home():
-    return jsonify({
-        'message': "We got data from server!",
-        'people': ['jack','harry','barry']
-    })

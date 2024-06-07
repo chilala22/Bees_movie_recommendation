@@ -15,8 +15,6 @@ load_dotenv()  # Load environment variables from .env file
 
 # defining the db
 db = SQLAlchemy()
-# DB_NAME = "database.db"
-
 
 #define function that creates the app
 def create_app():
@@ -31,11 +29,8 @@ def create_app():
     DB_NAME = os.getenv('DB_NAME')
     
     app.config['SECRET_KEY'] = secret_key
-    # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost:5432/movie_recommendation' #f'sqlite:///{DB_NAME}'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
 
-    # CORS(app,resources={r"/*":{"origins":"*"}})
     CORS(app) 
     if app.config['SQLALCHEMY_DATABASE_URI'] == None:
         print("Need database config") 
@@ -70,17 +65,3 @@ def create_app():
         return Users.query.get(int(id))
     
     return app
-
-#checks if db exists if not creates it
-def create_database(app):
-    with app.app_context():
-        if not path.exists('website/' + DB_NAME):
-            db.create_all()
-            print('Created Database!')
-# with app.app_context():
-#     db.create_all()
-
-
-# df2 = pd.read_csv('E:/DIPLOMA/Content-Based-MRS/backend/website/model/tmdb.csv')
-# backend\website\model\tmdb.csv
-

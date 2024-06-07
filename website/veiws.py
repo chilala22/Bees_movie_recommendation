@@ -23,12 +23,8 @@ load_dotenv()  # Load environment variables from.env file
 
 
 def fetch_poster(movie_id):
-    #  api_key =6a3b4548f5c45f56fcf882e7ef655440
-    #  url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
     api_keys = os.getenv('TMDB_API_KEY')
     url = "https://api.themoviedb.org/3/movie/{}?api_key={}&language=en-US".format(movie_id,api_keys)
-    #  api_key = os.getenv('TMDB_API_KEY')
-    #  url = "https://api.themoviedb.org/3/movie/{}?api_key={}&language=en-US".format(movie_id, api_key)
 
     data=requests.get(url)
     data=data.json()
@@ -44,7 +40,6 @@ movies=pickle.load(open("./movies_list_part1.pkl", "rb"))
 similarity=pickle.load(open("./similarity_part1.pkl", "rb"))
 # helps get the names of the movies from the id in title
 movies_list = movies['title'].values
-# best_rated_movies=pickle.load(open("./backend/best_rated_movies.pkl", "rb"))
 best_rated_movies = pd.read_pickle("./best_rated_movies.pkl")
 popular_movies = pd.read_pickle("./most_popular_movies.pkl")
 
@@ -79,8 +74,6 @@ def home():
     movie_posters = [fetch_poster(movie['id']) for movie in top_10_best_movies.to_dict('records')]
     movie_page_urls = [url_for('views.movie_page', movie_name_req=movie['original_title'], movie_id=movie['id']) for movie in top_10_best_movies.to_dict('records')]
 
-    # Enumerate the movies list
-    # enumerate_best_movies = list(enumerate(top_10_best_movies.to_dict('records')))
     # Query the Ratings table to get the rating for each movie
     best_ratings = db.session.query(Ratings).filter(
         Ratings.tmdb_movies_id.in_(top_10_best_movies['id']),
@@ -97,19 +90,12 @@ def home():
     movie_page_urls_pop = [url_for('views.movie_page', movie_name_req=movie_pop['original_title'], movie_id=movie_pop['id']) for movie_pop in top_10_popular_movies.to_dict('records')]
 
     # Query the Ratings table to get the rating for each movie
-    # popular_ratings = db.session.query(Ratings).filter(
-    #     Ratings.tmdb_movies_id.in_(top_10_popular_movies['id'])).all()
-    # Query the Ratings table to get the rating for each movie for the current user
     popular_ratings = db.session.query(Ratings).filter(
         Ratings.tmdb_movies_id.in_(top_10_popular_movies['id']),
         Ratings.users_id == current_user.id  # Filter by the current user's ID
     ).all()
 
   
-    # # Create a dictionary to store the popular_ratings
-    # popular_ratings_dict = {rating.tmdb_movies_id: rating.rating for rating in popular_ratings}
-    # # Enumerate the movies list and add the rating to each movie
-    # enumerate_popular_movies = [(i, {**movie, 'rating': popular_ratings_dict.get(movie['id'])}) for i, movie in enumerate(top_10_popular_movies.to_dict('records'))]
     # Create a dictionary to store the popular_ratings
     popular_ratings_dict = {rating.tmdb_movies_id: rating.rating for rating in popular_ratings}
     # Enumerate the movies list and add the rating to each movie
@@ -157,6 +143,7 @@ def delete_note():
     return jsonify({})
 
 @views.route('/movie-search-image', methods=['GET', 'POST'])
+@login_required  #cannot get user from route if not logged in
 def movie_search_image():
     name = ''
     movie_name_req = []
@@ -209,6 +196,7 @@ def movie_search_image():
                                  )
 
 @views.route('/movie-page/<string:movie_name_req>/<int:movie_id>')
+@login_required  #cannot get user from route if not logged in
 def movie_page(movie_name_req,movie_id):
     rating_value = ''
     movie_details = tmdb_movies.query.get(movie_id)
@@ -216,7 +204,6 @@ def movie_page(movie_name_req,movie_id):
     rating = Ratings.query.filter_by(tmdb_movies_id=movie_id, users_id=current_user.id).first()
     rating_value = rating.rating if rating else None
 
-    # Retrieve additional details from the database
     # render the movie page template with the movie name
     return render_template('movie_page.html',
                            users=current_user,
@@ -225,8 +212,6 @@ def movie_page(movie_name_req,movie_id):
                            movie_details=movie_details,
                            movie_poster=movie_poster,
                            rating_value = rating_value
-                        #    cast_movie=cast_movie,
-                        #    director=director
                            )
 
 @views.route('/movie-wishlist/<int:movie_id>', methods=['GET', 'POST'])
