@@ -1,11 +1,9 @@
-<!--this is the theme of the website
--->
+<!--this is the theme of the website-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
- 
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -42,7 +40,8 @@
             <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/movie-search-image">Movie search</a>
             <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/wishlist">Your Wishlist</a>
             <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/rated-movie-recommendations">Your Rated Movies</a>
-            <a class="nav-item nav-link text-red-600 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="logout" href="/logout">Logout</a>
+            <span class="nav-item nav-link text-white rounded-md px-3 py-2 text-md font-medium uppercase font-bold">Welcome, {{ current_user.username }} !</span>
+            <a class="nav-item nav-link text-red-600 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium uppercase" id="logout" href="/logout">Logout</a>
 
             {% else %}
             <a class="nav-item nav-link  text-white rounded-md px-3 py-2 text-sm font-medium" id="home" href="/">Home</a>
