@@ -1,4 +1,6 @@
 #this shows that there are a bunch of files available
+import os
+from dotenv import load_dotenv
 from flask import Blueprint, redirect,render_template,request,flash, jsonify, url_for
 import flask
 from flask_login import login_required,current_user
@@ -9,8 +11,6 @@ import json
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
-# from wtforms import StringField, Form
-# from wtforms.validators import DataRequired, Length
 from flask_sqlalchemy import SQLAlchemy  
 import random
 
@@ -19,19 +19,24 @@ views=Blueprint('views',__name__)
 
 import pickle
 import requests
+load_dotenv()  # Load environment variables from.env file
+
 
 def fetch_poster(movie_id):
     #  api_key =6a3b4548f5c45f56fcf882e7ef655440
     #  url = f"https://api.themoviedb.org/3/movie/{movie_id}?api_key={api_key}&language=en-US"
+    api_keys = os.getenv('TMDB_API_KEY')
+    url = "https://api.themoviedb.org/3/movie/{}?api_key={}&language=en-US".format(movie_id,api_keys)
+    #  api_key = os.getenv('TMDB_API_KEY')
+    #  url = "https://api.themoviedb.org/3/movie/{}?api_key={}&language=en-US".format(movie_id, api_key)
 
-     url = "https://api.themoviedb.org/3/movie/{}?api_key=6a3b4548f5c45f56fcf882e7ef655440&language=en-US".format(movie_id)
-     data=requests.get(url)
-     data=data.json()
-     poster_path = data['poster_path']
-     release_date_path = data['release_date']
-     runtime_path = data['runtime']
-     full_path = "https://image.tmdb.org/t/p/w500/"+poster_path
-     return full_path,release_date_path,runtime_path
+    data=requests.get(url)
+    data=data.json()
+    poster_path = data['poster_path']
+    release_date_path = data['release_date']
+    runtime_path = data['runtime']
+    full_path = "https://image.tmdb.org/t/p/w500/"+poster_path
+    return full_path,release_date_path,runtime_path
  
  
 movies=pickle.load(open("./movies_list_part1.pkl", "rb"))

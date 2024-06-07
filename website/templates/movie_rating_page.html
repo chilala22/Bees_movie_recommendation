@@ -47,7 +47,7 @@
     {% else %}
     <p class="text-center text-red-500 font-bold">
         You have rated {{ user_ratings_count }} movies. 
-        {% if high_rated_count < 4 %}
+        {% if user_ratings_count < 4 %}
             You need to rate at least 4 movies with a rating of 3 or higher to get recommendations.
         {% endif %}
     </p>

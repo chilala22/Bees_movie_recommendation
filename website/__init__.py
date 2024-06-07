@@ -1,6 +1,5 @@
 
 # setting up flask application
-
 from flask import Flask,jsonify
 from flask_cors import CORS
 from flask_sqlalchemy import SQLAlchemy
@@ -9,7 +8,10 @@ from flask_login import LoginManager
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from dotenv import load_dotenv
+import os
 
+load_dotenv()  # Load environment variables from .env file
 
 # defining the db
 db = SQLAlchemy()
@@ -21,9 +23,18 @@ def create_app():
     #initialise app, __name__: represents name of the file that will be run
     app=Flask(__name__)
     #secret_key: encrypts/secures the session data related to website
-    app.config['SECRET_KEY'] = 'hjshjhdjah kjshkjdhjs'
+    secret_key =  os.getenv('SECRET_KEY')
+    DB_USERNAME = os.getenv('DB_USERNAME')
+    DB_PASSWORD = os.getenv('DB_PASSWORD')
+    DB_HOST = os.getenv('DB_HOST')
+    DB_PORT = os.getenv('DB_PORT')
+    DB_NAME = os.getenv('DB_NAME')
+    
+    app.config['SECRET_KEY'] = secret_key
     # app.config['SQLALCHEMY_DATABASE_URI'] = f'sqlite:///{DB_NAME}'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost:5432/movie_recommendation' #f'sqlite:///{DB_NAME}'
+    # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:1234@localhost:5432/movie_recommendation' #f'sqlite:///{DB_NAME}'
+    app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://{DB_USERNAME}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}'
+
     # CORS(app,resources={r"/*":{"origins":"*"}})
     CORS(app) 
     if app.config['SQLALCHEMY_DATABASE_URI'] == None:

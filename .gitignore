@@ -1,3 +1,4 @@
 .venv
+.env
 similarity.pkl
 similarity_part1.pkl
