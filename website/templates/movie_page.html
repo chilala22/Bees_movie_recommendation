@@ -2,8 +2,8 @@
 {% extends "base.html" %}{% block title%}Movie Search Image{% endblock %}
 {% block content%}
 
-<section class="h-5/6 justify-center items-center overflow-y-hidden mt-5 ml-10 bg-slate-300">
- <h6 class="mt-2 ml-4 font-bold text-3xl text-slate-800">
+<section class="h-5/6 justify-center items-center overflow-y-hidden mt-5 ml-10 bg-slate-900 rounded-lg">
+ <h6 class="mt-2 ml-4 font-bold text-3xl text-blue-100">
     {{ movie_name_req }} ({{ movie_details.release_date.year}})
 </h6>
 <div class="flex ">
@@ -15,23 +15,21 @@
             </div>            
         </div>
         <div class=" col-span-4">
-        <p class="my-4">
+        <p class="my-4 text-blue-100">
             {{ movie_details.overview}}
         </p>
-        <div class=" bg-slate-700 my-4 rounded-xl text-slate-200 ml-6 h-8 w-5/6 justify-center items-center text-center">
+        <div class=" bg-slate-700 my-4 rounded-xl text-blue-100 ml-6 h-8 w-5/6 justify-center items-center text-center">
         <div class="flex flex-row  " id="oneCol">
-            <div class="flex-none mt-1 w-8 mx-4 bg-slate-300 text-slate-800 rounded-xl" >{{movie_details.original_language}}</div>
-
-            <div class="flex-auto  mx-4 border-slate-500 text-sm py-1" ><i class="fa-regular fa-clock"></i> &nbsp{{ movie_details.runtime if movie_details.runtime!= '00:00:00' else 'Unknown' }}</div>
-            
-            <div class="flex-auto mx-4 border-slate-500 text-sm py-1"> 
+            <div class="flex-none mt-1 text-blue-100 w-8 mx-4 bg-slate-800 text-blue-100 rounded-xl" >{{movie_details.original_language}}</div>
+            <div class="flex-auto  mx-4 text-blue-100  text-sm py-1" ><i class="fa-regular fa-clock"></i> &nbsp{{ movie_details.runtime if movie_details.runtime!= '00:00:00' else 'Unknown' }}</div>   
+            <div class="flex-auto mx-4  text-blue-100 text-sm py-1"> 
                 &nbsp{{movie_details.vote_average}} / 10 ({{movie_details.vote_count}} reviews)
             </div>     
         </div>
      
     </div>
-    <div class="">
-        <p class="capitalize font-bold text-3xl">want to rate this movie? </p>
+    <div class="text-blue-100">
+        <p class="capitalize font-bold text-3xl ">want to rate this movie? </p>
         <form action="{{ url_for('views.rate_movie', movie_id=movie_id) }}" method="post" class="flex items-center mx-16">
        
           <div class="star-rating mr-9 m">
@@ -59,7 +57,7 @@
 
         </form>
     </div>
-    <div>
+    <div  class="text-blue-100">
         <p class="mb-1">Genres: &nbsp {{ movie_details.genres }}</p>
         <p class="mb-1">Realeased on: &nbsp {{movie_details.release_date}}</p>
         <p class="mb-1">Production companies: {{movie_details.production_companies}}</p>

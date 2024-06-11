@@ -37,16 +37,16 @@
           <div class="navbar-nav">
             {% if users.is_authenticated %}
             <a class="nav-item nav-link  text-white rounded-md px-3 py-2 text-sm font-medium" id="home" href="/">Home</a>
-            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/movie-search-image">Movie search</a>
-            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/wishlist">Your Wishlist</a>
-            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/rated-movie-recommendations">Your Rated Movies</a>
+            <a class="nav-item nav-link text-white hover:bg-gray-700 hover:text-white font-medium rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/movie-search-image">Movie search</a>
+            <a class="nav-item nav-link text-white hover:bg-gray-700 hover:text-white font-medium rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/wishlist">Your Wishlist</a>
+            <a class="nav-item nav-link text-white hover:bg-gray-700 hover:text-white font-medium rounded-md px-3 py-2 text-sm font-medium capitalize" id="home" href="/rated-movie-recommendations">Your Rated Movies</a>
             <span class="nav-item nav-link text-white rounded-md px-3 py-2 text-md font-medium uppercase font-bold">Welcome, {{ current_user.username }} !</span>
-            <a class="nav-item nav-link text-red-600 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-md font-medium uppercase" id="logout" href="/logout">Logout</a>
+            <a class="nav-item nav-link text-red-600 hover:bg-gray-700 hover:text-white font-medium rounded-md px-3 py-2 text-md font-medium uppercase" id="logout" href="/logout">Logout</a>
 
             {% else %}
             <a class="nav-item nav-link  text-white rounded-md px-3 py-2 text-sm font-medium" id="home" href="/">Home</a>
-            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" id="login" href="/login">Login</a>
-            <a class="nav-item nav-link text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium" id="signUp" href="/sign-up">Sign Up</a>
+            <a class="nav-item nav-link text-white hover:bg-gray-700 hover:text-white font-medium rounded-md px-3 py-2 text-sm font-medium" id="login" href="/login">Login</a>
+            <a class="nav-item nav-link text-white hover:bg-gray-700 hover:text-white font-medium rounded-md px-3 py-2 text-sm font-medium" id="signUp" href="/sign-up">Регистрировать</a>
             {% endif %}
         </div>
         </div>

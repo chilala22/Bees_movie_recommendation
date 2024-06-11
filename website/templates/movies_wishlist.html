@@ -3,7 +3,7 @@
 {% extends "base.html" %}{% block title%}Movie Wishlist{% endblock %}
 {% block content%}
     <section class="h-5/6 justify-center items-center overflow-y-hidden mt-5 ml-10">
-      <h6 class="mt-2 ml-4 font-bold text-3xl text-gray-200">
+      <h6 class=" ml-4 font-bold text-5xl text-slate-900">
         My Wishlist
       </h6>
       <div class="m-2 ">
@@ -11,30 +11,32 @@
               <ul>
                 {% for movie in movies %}
                   <li>
-                    <div class="flex  m-2 bg-slate-300 text-gray-800 rounded-md h-72">
+                    <div class="flex  m-2 bg-slate-900 text-blue-100 rounded-md h-72">
                       <div class="grid grid-cols-6 gap-2 ">
                         <div class="col-span-2 pt-2 text-center justify-center items-center">
                           <!-- <h4>{{movie_id}}</h4> -->
                           <div class="rounded-md ">
                             <a href="{{ url_for('views.movie_page', movie_name_req=movie.movie.title, movie_id=movie.movie.id) }}">           
                               <img src="{{ movie.movie_poster_wish }}"  alt="Recommendation Image" class=" object-cover ml-24 rounded-md " width="150" height="300" >
-                              <p>View Details</p>
+                              <p class="text-blue-100">View Details</p>
                             </a> 
                             </div>
                         </div>
                         <div class=" col-span-4 m-2">
-                    <h2 class="font-bold text-xl mb-2">{{ movie.movie.title }}</h2>
-                    <div class="h-24 overflow-x-auto">
+                    <h2 class="font-bold text-xl mb-2 text-blue-100">{{ movie.movie.title }}</h2>
+                    <div class="h-24 overflow-x-auto text-blue-100">
                       <p>{{ movie.movie.overview }}</p>
                     </div>
+                    <div class="text-blue-100">
                     <p>Runtime: {{ movie.movie.runtime }}</p>
                     <p>{{ movie.movie.release_date}}</p>
                    <p>Homepage<a href="{{ movie.movie.homepage}}" class="text-blue-600 underline-offset-8" > Link</a> </p> 
                    <div>
-                    <p>Your rating: {{ movie.rating }} / 5</p>    
+                    <p>Your rating: {{ movie.rating }} / 5</p>   
+                  </div> 
                    </div> 
                    <form method="POST" action="{{ url_for('views.delete_movie', movie_id=movie.movie.id) }}" class="ml-44">
-                      <button type="submit" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+                      <button type="submit" class="bg-orange-600 hover:bg-orange-900 text-white font-bold py-2 px-4 rounded">
                         Remove from Wishlist
                       </button>
                     </form>

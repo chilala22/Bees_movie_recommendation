@@ -12,17 +12,17 @@
       {% if user_ratings_count >= 4 %}
       {% for movie in movies %}
           <h2 class="text-2xl font-bold mb-2">Because you watched {{ movie[1] }}</h2>
-          <div class="my-3 overflow-x-auto">
-              <div class="grid grid-cols-5 gap-2 snap-mandatory snap-x">
+          <div class="my-3 overflow-x-auto text-blue-100">
+              <div class="grid grid-cols-5 gap-2 snap-mandatory snap-x ">
                   {% for rec_movie in recommended_movies|selectattr("title", "equalto", movie[1]) %}
                       {% for recommended_movie in rec_movie.recommended_movies %}
-                          <div class="col-span-1 flex flex-col h-90 rounded-lg bg-slate-500 p-2 snap-center">
+                          <div class="col-span-1 flex flex-col h-90 rounded-lg  p-2 snap-center bg-slate-900">
                               <div class="flex-1 rounded-t-lg ">
                                   <a href="{{ url_for('views.movie_page', movie_name_req=recommended_movie.title, movie_id=recommended_movie.id) }}">
                                       <img src="{{ recommended_movie.poster }}" alt="Movie Poster" class="w-full object-cover">
-                                      <h6 class="text-sm font-semibold text-blue-400 truncate">{{ recommended_movie.title }}</h6>
+                                      <h6 class="text-sm font-semibold text-orange-500 truncate">{{ recommended_movie.title }}</h6>
                                   </a>
-                                  <div class="overflow-y-hidden text-blue-200 text-xs">
+                                  <div class="overflow-y-hidden text-blue-100 text-xs">
                                       <p class=""></p>
                                       <div class="flex flex-row " id="oneCol">
                                           <div class="flex-auto">{{ recommended_movie.release_date }}</div>
@@ -34,7 +34,7 @@
                                     </div>
                                   </div>
                                   <form action="" method="post" class="mt-auto text-center text-sm">
-                                      <button type="submit" id="wishlist_add" name="wishlist_add" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-1 px-1 rounded my-1">Add to wishlist</button>
+                                      <button type="submit" id="wishlist_add" name="wishlist_add" class="bg-orange-600 hover:bg-orange-900 text-white font-bold py-1 px-1 rounded my-1">Add to wishlist</button>
                                   </form>
                               </div>
                           </div>
